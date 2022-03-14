@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  db:
+    container_name: postgres_db
+    build: ./db
+    image: postgres
+    ports:
+      - 3306:5432
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: abc123
+      POSTGRES_DB: pgdb
+  website:
+    container_name: web-app
+    depends_on:
+      - db
+    build: ./web-app
+    ports:
+      - 3000:8080
+    volumes:
+      - ./web-app/src:/web-app/src
