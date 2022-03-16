@@ -1,10 +1,10 @@
+// Toggle true/false to run or not run tests:
+const willRunTests = false
+
 const path = require('path')
 const express = require('express')
 const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
-
-// Toggle true/false to run or not run tests:
-const willRunTests = false
 
 
 module.exports = function({dbTests}){

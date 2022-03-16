@@ -9,8 +9,10 @@ module.exports = function ({readingsRepo}) {
      * @param {object} reading 
      * @param {any} callback 
      */
-    exports.createReading = function(reading, callback) {
-        readingsRepo.createReading(reading, callback)
+    exports.createReading = async function(reading) {
+        returnValue = await readingsRepo.createReading(reading) // true/false
+        return returnValue[0]
+
     }
 
     return exports
