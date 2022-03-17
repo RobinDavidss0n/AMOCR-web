@@ -1,4 +1,4 @@
-module.exports = function ({readingsRepo}) {
+module.exports = function ({readingsRepo, filesystemRepo, tesseract}) {
 
     const exports = {}
 
@@ -40,6 +40,25 @@ module.exports = function ({readingsRepo}) {
      */
     exports.setCorrectValue = async function(id, value) {
         return await readingsRepo.setCorrectValue(id, value)
+    }
+
+
+
+    exports.createReadingsFromImagesInFolder = async function(folderPath) {
+        
+        fileArray = filesystemRepo.getFilesFromFolder(folderPath)
+
+        for (const file of fileArray) {
+            
+            ocrResult = await tesseract.getImageRecognition(file)
+
+            reading = {
+                result: ocrResult,
+                filename: file
+            }
+
+            exports.createReading(reading)
+        }
     }
 
     return exports

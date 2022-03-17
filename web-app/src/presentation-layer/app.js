@@ -50,7 +50,9 @@ module.exports = function({dbTests, tesseractTests, fsTests}){
         fsTests.testGetFilesFromFolder()
     }
 
-    
+    //dbTests.testCreateReadingsFromFolder()
+
+
     /************************************************************************************/
     
     

@@ -155,6 +155,14 @@ module.exports = function ({readingsManager}) {
         return (test1Success && test2Success && test3Success)
     }
 
+
+
+    exports.testCreateReadingsFromFolder = async function() {
+
+        folderPath = 'src/presentation-layer/public/meter-images/'
+        readingsManager.createReadingsFromImagesInFolder(folderPath)
+    }
+
     //TODO: test the getReading function
     return exports
 }
