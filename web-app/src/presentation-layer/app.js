@@ -1,5 +1,5 @@
 // Toggle true/false to run or not run tests:
-const willRunTests = false
+const willRunTests = true
 
 const path = require('path')
 const express = require('express')
