@@ -2,6 +2,7 @@
 // Toggle true/false to run or not run tests:
 const willRunGeneralTests = false
 const willRunTesseractTests = false
+const willRunFilesystemTests = false
 
 const path = require('path')
 const express = require('express')
@@ -9,7 +10,7 @@ const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 
 
-module.exports = function({dbTests, tesseractTests}){
+module.exports = function({dbTests, tesseractTests, fsTests}){
 
     const app = express()
     
@@ -44,5 +45,14 @@ module.exports = function({dbTests, tesseractTests}){
         tesseractTests.testRecognizeTestImage()
     }
 
+    if (willRunFilesystemTests) {
+        console.log('Running File System tests...')
+        fsTests.testGetFilesFromFolder()
+    }
+
+    
+    /************************************************************************************/
+    
+    
     return app
 }

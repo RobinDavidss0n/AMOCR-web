@@ -7,9 +7,11 @@ container.register({
     /********************************************** TESTS **********************************************/
     dbTests:                awilix.asFunction(require('./tests/db_tests')),
     tesseractTests:         awilix.asFunction(require('./tests/tesseract_tests')),
+    fsTests:                awilix.asFunction(require('./tests/fs_tests')),
     
     /******************************************* DATA ACCESS *******************************************/
     readingsRepo:           awilix.asFunction(require('./data-access-layer/readings-repository')),
+    filesystemRepo:         awilix.asFunction(require('./data-access-layer/filesystem-repository')),
 
     /***************************************** BUSINESS LOGIC ******************************************/
     readingsManager:        awilix.asFunction(require('./business-logic-layer/readings-manager')),
