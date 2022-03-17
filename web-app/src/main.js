@@ -6,6 +6,7 @@ const container = awilix.createContainer()
 container.register({
     /********************************************** TESTS **********************************************/
     dbTests:                awilix.asFunction(require('./tests/db_tests')),
+    tesseractTests:         awilix.asFunction(require('./tests/tesseract_tests')),
     
     /******************************************* DATA ACCESS *******************************************/
     readingsRepo:           awilix.asFunction(require('./data-access-layer/readings-repository')),
