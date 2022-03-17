@@ -12,6 +12,7 @@ container.register({
 
     /***************************************** BUSINESS LOGIC ******************************************/
     readingsManager:        awilix.asFunction(require('./business-logic-layer/readings-manager')),
+    tesseract:              awilix.asFunction(require('./business-logic-layer/tesseract')),
 
     /******************************************* PRESENTATION ******************************************/
 

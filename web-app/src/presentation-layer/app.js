@@ -1,5 +1,7 @@
+
 // Toggle true/false to run or not run tests:
-const willRunTests = true
+const willRunGeneralTests = false
+const willRunTesseractTests = true
 
 const path = require('path')
 const express = require('express')
@@ -7,7 +9,7 @@ const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 
 
-module.exports = function({dbTests}){
+module.exports = function({dbTests, tesseract}){
 
     const app = express()
     
@@ -31,10 +33,16 @@ module.exports = function({dbTests}){
     app.use(express.static(path.join(__dirname, 'public')))
 
 
+
     /************************************ Run tests *************************************/
-    if (willRunTests) {
-        console.log('Running tests...\n')
+    if (willRunGeneralTests) {
+        console.log('Running general tests...\n')
         dbTests.runAllTests()
+    }
+
+    if (willRunTesseractTests) {
+        console.log('Running Tesseract tests...\n')
+        tesseract.recognizeTestImage()
     }
 
     return app
