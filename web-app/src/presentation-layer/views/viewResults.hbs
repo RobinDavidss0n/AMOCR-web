@@ -1,0 +1,39 @@
+<body>
+    <div class="container is-fluid">
+        <h1 class="is-size-1">View OCR results</h1>
+        
+        {{#if errorsFound}}
+            <h2 class="is-size-2">The following error occurred:</h2>
+            <p>{{errorCode}}</p>
+            {{#if errorDetails}}
+                <p>{{errorDetails}}</p>
+            {{/if}}
+        {{/if}}
+
+        {{#if result.length}}
+            <table class="table is-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>OCR Result</th>
+                        <th>Correct value</th>
+                        <th>Filename</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each result}}
+                        <tr>
+                            <td>{{id}}</td>
+                            <td>{{ocr_result}}</td>
+                            <td>{{correct_value}}</td>
+                            <td>{{filename}}</td>
+                            <td>{{created_on}}</td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        {{/if}}
+        <p>Some text fo sho</p>
+    </div>
+</body>

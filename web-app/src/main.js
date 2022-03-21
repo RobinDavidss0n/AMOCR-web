@@ -18,7 +18,8 @@ container.register({
     tesseract:              awilix.asFunction(require('./business-logic-layer/tesseract')),
 
     /******************************************* PRESENTATION ******************************************/
-
+    homeRouter:             awilix.asFunction(require('./presentation-layer/routers/home-router')),
+    resultsRouter:          awilix.asFunction(require('./presentation-layer/routers/results-router')),
 
     /******************************************** APPLICATION ******************************************/
     app:                    awilix.asFunction(require('./presentation-layer/app'))

@@ -1,8 +1,8 @@
 
 // Toggle true/false to run or not run tests:
-const willRunGeneralTests = true
-const willRunTesseractTests = true
-const willRunFilesystemTests = true
+const willRunGeneralTests = false
+const willRunTesseractTests = false
+const willRunFilesystemTests = false
 
 const path = require('path')
 const express = require('express')
@@ -10,7 +10,7 @@ const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 
 
-module.exports = function({dbTests, tesseractTests, fsTests}){
+module.exports = function({dbTests, tesseractTests, fsTests, homeRouter, resultsRouter}){
 
     const app = express()
     
@@ -50,11 +50,14 @@ module.exports = function({dbTests, tesseractTests, fsTests}){
         fsTests.testGetFilesFromFolder()
     }
 
-    //dbTests.testCreateReadingsFromFolder()
 
+    /********************************** Setup routers ***********************************/
 
-    /************************************************************************************/
+    app.use('/', homeRouter)
+    app.use('/results', resultsRouter)
     
+
+
     
     return app
 }
