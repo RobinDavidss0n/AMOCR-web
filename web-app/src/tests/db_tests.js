@@ -2,6 +2,9 @@ module.exports = function ({readingsManager}) {
 
     const exports = {}
 
+    firstValidId = null
+    secondValidId = null
+
     /**
      * Runs all tests that are defined for performing CRUD operations on the 'readings' resource.
      */
@@ -84,6 +87,10 @@ module.exports = function ({readingsManager}) {
         test3Success = test3Result[0] == true
         test4Success = (test4Result[0] == false && test4Result[1] == 'internalError')
 
+        // Store the valid id's for other tests:
+        firstValidId = test1Result[1]
+        secondValidId = test3Result[1]
+
         return (test1Success && test2Success && test3Success && test4Success)            
     }
 
@@ -94,10 +101,9 @@ module.exports = function ({readingsManager}) {
      */
     exports.testGetReading = async function() {
 
-        validID = 1
         invalidID = -1
 
-        test1Result = await readingsManager.getReading(validID)
+        test1Result = await readingsManager.getReading(firstValidId)
         test2Result = await readingsManager.getReading(invalidID)
 
         //Validate results:
@@ -139,14 +145,14 @@ module.exports = function ({readingsManager}) {
      */
     exports.testSetCorrectValue = async function() {
 
-        // Define ids and values (assumes that createReadingTest passed):
-        existingId1 = 1, nonExistentId1 = -1, existingId2 = 3
+        // Define invalid id and values (assumes that createReadingTest passed):
+        nonExistentId1 = -1
         value1 = '12345', value2 = '85247', value3 = '68547'
 
         // RUN TESTS:
-        test1Result = await readingsManager.setCorrectValue(existingId1, value1) //== true //should succeed
+        test1Result = await readingsManager.setCorrectValue(firstValidId, value1) //== true //should succeed
         test2Result = await readingsManager.setCorrectValue(nonExistentId1, value2) //== false //should fail
-        test3Result = await readingsManager.setCorrectValue(existingId2, value3) //== true //should succeed
+        test3Result = await readingsManager.setCorrectValue(secondValidId, value3) //== true //should succeed
 
         test1Success = (test1Result[0] == true)
         test2Success = (test2Result[0] == false && test2Result[1] == 'internalError')
@@ -163,6 +169,5 @@ module.exports = function ({readingsManager}) {
         readingsManager.createReadingsFromImagesInFolder(folderPath)
     }
 
-    //TODO: test the getReading function
     return exports
 }

@@ -1,8 +1,8 @@
 
 // Toggle true/false to run or not run tests:
-const willRunGeneralTests = false
-const willRunTesseractTests = false
-const willRunFilesystemTests = false
+const willRunGeneralTests = true
+const willRunTesseractTests = true
+const willRunFilesystemTests = true
 
 const path = require('path')
 const express = require('express')
