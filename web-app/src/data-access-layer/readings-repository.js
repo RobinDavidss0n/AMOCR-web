@@ -16,7 +16,7 @@ module.exports = function() {
         VALUES ($1, $2, current_timestamp)
         RETURNING ID`
         
-        const values = [reading.result, reading.filename]
+        const values = [reading.ocr_result, reading.filename]
 
         return new Promise(resolve => {
             db.query(query, values, function(error, result) {

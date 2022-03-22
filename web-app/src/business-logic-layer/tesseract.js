@@ -12,10 +12,10 @@ module.exports = function({}) {
      * @param {string} filename
      * @returns {string}
      */
-    exports.getImageRecognition = async function(filename='_testImage.jpeg') {
+    exports.getImageRecognition = async function(folder='', filename='_testImage.jpeg') {
 
         basePath = 'src/presentation-layer/public/meter-images/'
-        image = path.resolve(basePath, filename)
+        image = path.resolve(basePath, folder, filename)
         language = 'eng'
         
         const rectangle = { left: 180, top: 128, width: 385, height: 134 }

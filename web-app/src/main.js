@@ -15,11 +15,13 @@ container.register({
 
     /***************************************** BUSINESS LOGIC ******************************************/
     readingsManager:        awilix.asFunction(require('./business-logic-layer/readings-manager')),
+    filesystemManager:      awilix.asFunction(require('./business-logic-layer/filesystem-manager')),
     tesseract:              awilix.asFunction(require('./business-logic-layer/tesseract')),
 
     /******************************************* PRESENTATION ******************************************/
     homeRouter:             awilix.asFunction(require('./presentation-layer/routers/home-router')),
     resultsRouter:          awilix.asFunction(require('./presentation-layer/routers/results-router')),
+    readImageRouter:        awilix.asFunction(require('./presentation-layer/routers/read-image-router')),
 
     /******************************************** APPLICATION ******************************************/
     app:                    awilix.asFunction(require('./presentation-layer/app'))

@@ -1,0 +1,27 @@
+<body>
+    <div class="container is-fluid">
+        <h1 class="is-size-2">Read images from folder</h1>
+
+        <form class="form" action="/read-image" method="POST">
+            <div class="field">
+                <label class="label">Select folder:</label>
+                <div class="control">
+                    <div class="select">
+                    <select name="folder">
+                        {{#each folders}}
+                            <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                    </select>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-link">Read images</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</body>

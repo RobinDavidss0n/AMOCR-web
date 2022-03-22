@@ -56,22 +56,22 @@ module.exports = function ({readingsManager}) {
 
         // SETUP TEST CASES:
         const reading1 = { //Should succeed
-            result: '12345',
+            ocr_result: '12345',
             filename: filename1
         }
 
         const reading2 = { // Should fail (filename not unique)
-            result: '52486',
+            ocr_result: '52486',
             filename: filename2
         }
 
         const reading3 = { //Should succeed
-            result: '86127',
+            ocr_result: '86127',
             filename: filename3
         }
 
         const reading4 = { //Should fail (no filename provided)
-            result: '72127',
+            ocr_result: '72127',
             filename: null
         }
 

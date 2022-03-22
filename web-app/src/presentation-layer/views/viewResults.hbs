@@ -10,30 +10,45 @@
             {{/if}}
         {{/if}}
 
+        {{#if newReading}}
+            <h2 class="is-size-2">Reading results per file:</h2>
+        {{/if}}
+
         {{#if result.length}}
             <table class="table is-striped">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        {{#unless newReading}}
+                            <th>Id</th>
+                        {{/unless}}
                         <th>OCR Result</th>
-                        <th>Correct value</th>
+                        {{#unless newReading}}
+                            <th>Correct value</th>
+                        {{/unless}}
                         <th>Filename</th>
-                        <th>Date</th>
+                        {{#unless newReading}}
+                            <th>Date</th>
+                        {{/unless}}
                     </tr>
                 </thead>
                 <tbody>
                     {{#each result}}
                         <tr>
-                            <td>{{id}}</td>
+                            {{#unless ../newReading}}
+                                <td>{{id}}</td>
+                            {{/unless}}
                             <td>{{ocr_result}}</td>
-                            <td>{{correct_value}}</td>
+                            {{#unless ../newReading}}
+                                <td>{{correct_value}}</td>
+                            {{/unless}}
                             <td>{{filename}}</td>
-                            <td>{{created_on}}</td>
+                            {{#unless ../newReading}}
+                                <td>{{created_on}}</td>
+                            {{/unless}}
                         </tr>
                     {{/each}}
                 </tbody>
             </table>
         {{/if}}
-        <p>Some text fo sho</p>
     </div>
 </body>

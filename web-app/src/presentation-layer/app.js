@@ -10,7 +10,7 @@ const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 
 
-module.exports = function({dbTests, tesseractTests, fsTests, homeRouter, resultsRouter}){
+module.exports = function({dbTests, tesseractTests, fsTests, homeRouter, resultsRouter, readImageRouter}){
 
     const app = express()
     
@@ -55,6 +55,7 @@ module.exports = function({dbTests, tesseractTests, fsTests, homeRouter, results
 
     app.use('/', homeRouter)
     app.use('/results', resultsRouter)
+    app.use('/read-image', readImageRouter)
     
 
 

@@ -12,16 +12,16 @@
     <body>
         <nav class="navbar is-info" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="amocrNav" onclick="document.querySelector('.navbar-menu').classList.toggle('is-active');">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 </a>
             </div>
 
-            <div class="navbar-menu">
+            <div id="amocrNav" class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item">
+                    <a href="/read-image" class="navbar-item">
                         Read image folder    
                     </a>
                     <a href="/results" class="navbar-item">
@@ -30,8 +30,7 @@
                 </div>
             </div>
             <div class="navbar-end">
-                
-                </div>
+            </div>
         </nav>
 
         <main>

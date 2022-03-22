@@ -47,22 +47,31 @@ module.exports = function ({readingsRepo, filesystemRepo, tesseract}) {
      * Performs OCR scanning of all images in the specified folder
      * and stores the results in the data source.
      * @param {string} folderPath 
+     * @returns {Array<object>} Array containing the values saved to the db.
      */
     exports.createReadingsFromImagesInFolder = async function(folderPath) {
         
         fileArray = filesystemRepo.getFilesFromFolder(folderPath)
+        pathArray = folderPath.split('/')
+        folder = pathArray[pathArray.length - 1]
+
+        readings = []
 
         for (const file of fileArray) {
             
-            ocrResult = await tesseract.getImageRecognition(file)
+            ocrResult = await tesseract.getImageRecognition(folder, file)
 
             reading = {
-                result: ocrResult,
+                ocr_result: ocrResult,
                 filename: file
             }
 
+            readings.push(reading)
+
             exports.createReading(reading)
         }
+
+        return readings
     }
 
     return exports
