@@ -12,11 +12,18 @@ module.exports = function() {
      */
     exports.createReading = function(reading) {
         const query = `
-        INSERT INTO readings (ocr_result, filename, created_on) 
-        VALUES ($1, $2, current_timestamp)
+        INSERT INTO readings (ocr_result, filename, name, ppt, color_depth, is_base_image, created_on) 
+        VALUES ($1, $2, $3, $4, $5, $6, current_timestamp)
         RETURNING ID`
         
-        const values = [reading.ocr_result, reading.filename]
+        const values = [
+            reading.ocr_result, 
+            reading.filename, 
+            reading.name,
+            reading.ppt,
+            reading.color_depth, 
+            reading.is_base_image
+        ]
 
         return new Promise(resolve => {
             db.query(query, values, function(error, result) {

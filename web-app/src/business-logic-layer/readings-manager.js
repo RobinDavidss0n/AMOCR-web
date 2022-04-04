@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = function ({readingsRepo, filesystemRepo, tesseract}) {
 
     const exports = {}
@@ -44,35 +46,75 @@ module.exports = function ({readingsRepo, filesystemRepo, tesseract}) {
 
 
     /**
-     * Performs OCR scanning of all images in the specified folder
+     * Performs OCR scanning of all images in the specified folder, including subfolders,
      * and stores the results in the data source.
      * @param {string} folderPath 
      * @returns {Array<object>} Array containing the values saved to the db.
      */
     exports.createReadingsFromImagesInFolder = async function(folderPath) {
         
-        fileArray = filesystemRepo.getFilesFromFolder(folderPath)
-        pathArray = folderPath.split('/')
-        folder = pathArray[pathArray.length - 1]
+        folderArray = filesystemRepo.getAvailableFolders(folderPath)
 
         readings = []
+        for (const folder of folderArray){
 
-        for (const file of fileArray) {
+            currentFolderPath = folderPath+'/'+folder
+            files = filesystemRepo.getFilesFromFolder(currentFolderPath)
             
-            ocrResult = await tesseract.getImageRecognition(folder, file)
+            for (const file of files){
+                    
+                ocrResult = await tesseract.getImageRecognition(currentFolderPath, file)
 
-            reading = {
-                ocr_result: ocrResult,
-                filename: file
+                imageInfo = getImageInfoFromName(file)
+
+                reading = {
+                    ocr_result: ocrResult,
+                    filename: file,
+                    name: imageInfo.name,
+                    is_base_image: imageInfo.baseImage,
+                    color_depth: imageInfo.colorDepth,
+                    ppt: imageInfo.ppt
+                }
+
+                readings.push(reading)
             }
-
-            readings.push(reading)
-
-            exports.createReading(reading)
         }
 
+        for (const reading of readings){
+            exports.createReading(reading)
+        }
         return readings
     }
 
     return exports
+}
+
+function getImageInfoFromName(filename){
+
+    fileExtension = filename.split('.').pop()
+
+    imageInfo = {
+        name: null,
+        baseImage: null,
+        colorDepth: null,
+        ppt: null
+    }
+
+    if (fileExtension == 'bmp') {
+
+        if(filename.includes('100ppt')){
+            imageInfo.baseImage = true
+        }else{
+            imageInfo.baseImage = false
+        }
+
+        fileNameArr = filename.split('_')
+
+        imageInfo.name = fileNameArr[0]
+        imageInfo.colorDepth = fileNameArr[1].replace('bit', '')
+        imageInfo.ppt = fileNameArr[2].replace('ppt.bmp', '')
+
+    }
+
+    return imageInfo
 }

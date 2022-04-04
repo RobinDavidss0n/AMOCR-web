@@ -23,7 +23,6 @@ module.exports = function({filesystemManager, readingsManager}) {
 
         
         path = 'src/presentation-layer/public/meter-images/' + folder
-        console.log(path)
 
         readings = await readingsManager.createReadingsFromImagesInFolder(path)
 

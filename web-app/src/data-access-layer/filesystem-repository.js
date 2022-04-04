@@ -7,14 +7,16 @@ module.exports = function() {
 
     /**
      * Returns an array with the names of all files in the specified directory.
+     * Will not return directories.
      * @param {string} folderPath
      * @returns {Array<string>} 
      */
     exports.getFilesFromFolder = function(folderPath) {
 
-        return fs.readdirSync(folderPath)
+        return fs.readdirSync(folderPath, { withFileTypes: true })
+            .filter(dirent => dirent.isFile())
+            .map(dirent => dirent.name)
     }
-    
 
     /**
      * Returns an array with the names of all folders in the specified directory.

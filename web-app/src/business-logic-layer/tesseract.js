@@ -12,10 +12,9 @@ module.exports = function({}) {
      * @param {string} filename
      * @returns {string}
      */
-    exports.getImageRecognition = async function(folder='', filename='_testImage.jpeg') {
+    exports.getImageRecognition = async function(path='', filename='_testImage.jpeg') {
 
-        basePath = 'src/presentation-layer/public/meter-images/'
-        image = path.resolve(basePath, folder, filename)
+        image = path+'/'+filename
         language = 'eng'
         
         const rectangle = { left: 180, top: 128, width: 385, height: 134 }
@@ -31,7 +30,7 @@ module.exports = function({}) {
                 await worker.setParameters({
                     tessedit_char_whitelist: '0123456789',
                 });                
-                const { data: { text } } = await worker.recognize(image, { rectangle });
+                const { data: { text } } = await worker.recognize(image /*, { rectangle }*/);
                 //console.log(text);
                 await worker.terminate();
                 resolve(text)
