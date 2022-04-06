@@ -17,7 +17,7 @@ module.exports = function ({readingsManager}) {
             errorCode:  errorCode,
             errorDetails: errorDetails,
         }
-
+        console.log(model.result)
         response.render('viewResults.hbs', model)
     })
     

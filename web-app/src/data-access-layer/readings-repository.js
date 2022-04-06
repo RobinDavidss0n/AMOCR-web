@@ -12,14 +12,15 @@ module.exports = function() {
      */
     exports.createReading = function(reading) {
         const query = `
-        INSERT INTO readings (ocr_result, filename, name, ppt, color_depth, is_base_image, created_on) 
-        VALUES ($1, $2, $3, $4, $5, $6, current_timestamp)
+        INSERT INTO readings (ocr_result, correct_value, filename, original_name, ppt, color_depth, is_base_image, created_on) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7, current_timestamp)
         RETURNING ID`
-        
+    
         const values = [
-            reading.ocr_result, 
+            reading.ocr_result,
+            reading.correct_value,
             reading.filename, 
-            reading.name,
+            reading.original_name,
             reading.ppt,
             reading.color_depth, 
             reading.is_base_image

@@ -17,7 +17,7 @@ module.exports = function({}) {
         image = path+'/'+filename
         language = 'eng'
         
-        const rectangle = { left: 180, top: 128, width: 385, height: 134 }
+        const rectangle = { left: 1, top: 1, width: 2, height: 2 }
         const worker = createWorker({
             //logger: m => console.log(m),
           });

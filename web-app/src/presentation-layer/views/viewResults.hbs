@@ -1,54 +1,90 @@
 <body>
     <div class="container is-fluid">
         <h1 class="is-size-1">View OCR results</h1>
-        
+
         {{#if errorsFound}}
-            <h2 class="is-size-2">The following error occurred:</h2>
-            <p>{{errorCode}}</p>
-            {{#if errorDetails}}
-                <p>{{errorDetails}}</p>
-            {{/if}}
+        <h2 class="is-size-2">The following error occurred:</h2>
+        <p>{{errorCode}}</p>
+        {{#if errorDetails}}
+        <p>{{errorDetails}}</p>
+        {{/if}}
         {{/if}}
 
         {{#if newReading}}
-            <h2 class="is-size-2">Reading results per file:</h2>
+        <h2 class="is-size-2">Reading results per file:</h2>
         {{/if}}
 
         {{#if result.length}}
-            <table class="table is-striped">
-                <thead>
-                    <tr>
-                        {{#unless newReading}}
-                            <th>Id</th>
-                        {{/unless}}
-                        <th>OCR Result</th>
-                        {{#unless newReading}}
-                            <th>Correct value</th>
-                        {{/unless}}
-                        <th>Filename</th>
-                        {{#unless newReading}}
-                            <th>Date</th>
-                        {{/unless}}
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each result}}
-                        <tr>
-                            {{#unless ../newReading}}
-                                <td>{{id}}</td>
-                            {{/unless}}
-                            <td>{{ocr_result}}</td>
-                            {{#unless ../newReading}}
-                                <td>{{correct_value}}</td>
-                            {{/unless}}
-                            <td>{{filename}}</td>
-                            {{#unless ../newReading}}
-                                <td>{{created_on}}</td>
-                            {{/unless}}
-                        </tr>
-                    {{/each}}
-                </tbody>
-            </table>
+        <table class="table is-striped">
+            <thead>
+                <tr>
+                    {{#unless newReading}}
+                    <th>Id</th>
+                    {{/unless}}
+
+                    <th>Filename</th>
+
+                    <th>OCR Result</th>
+
+                    <th>Correct value</th>
+
+                    {{#unless newReading}}
+                    <th>Original name</th>
+                    {{/unless}}
+
+                    {{#unless newReading}}
+                    <th>PPT</th>
+                    {{/unless}}
+
+                    {{#unless newReading}}
+                    <th>Color depth</th>
+                    {{/unless}}
+
+                    {{#unless newReading}}
+                    <th>Base image</th>
+                    {{/unless}}
+
+                    {{#unless newReading}}
+                    <th>Date</th>
+                    {{/unless}}
+                </tr>
+            </thead>
+            <tbody>
+                {{#each result}}
+                <tr>
+                    {{#unless ../newReading}}
+                    <td>{{id}}</td>
+                    {{/unless}}
+
+                    <td>{{filename}}</td>
+
+                    <td>{{ocr_result}}</td>
+
+                    <td>{{correct_value}}</td>
+
+                    {{#unless ../newReading}}
+                    <td>{{original_name}}</td>
+                    {{/unless}}
+
+                    {{#unless ../newReading}}
+                    <td>{{ppt}}</td>
+                    {{/unless}}
+
+                    {{#unless ../newReading}}
+                    <td>{{color_depth}}</td>
+                    {{/unless}}
+
+                    {{#unless ../newReading}}
+                    <td>{{is_base_image}}</td>
+                    {{/unless}}
+
+                    {{#unless ../newReading}}
+                    <td>{{created_on}}</td>
+                    {{/unless}}
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
         {{/if}}
     </div>
 </body>

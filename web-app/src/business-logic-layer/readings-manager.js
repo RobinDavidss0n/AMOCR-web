@@ -54,6 +54,10 @@ module.exports = function ({readingsRepo, filesystemRepo, tesseract}) {
     exports.createReadingsFromImagesInFolder = async function(folderPath) {
         
         folderArray = filesystemRepo.getAvailableFolders(folderPath)
+        
+        if (folderArray.length == 0) {
+            folderArray.push('')
+        }
 
         readings = []
         for (const folder of folderArray){
@@ -62,7 +66,6 @@ module.exports = function ({readingsRepo, filesystemRepo, tesseract}) {
             files = filesystemRepo.getFilesFromFolder(currentFolderPath)
             
             for (const file of files){
-                    
                 ocrResult = await tesseract.getImageRecognition(currentFolderPath, file)
 
                 imageInfo = getImageInfoFromName(file)
@@ -70,7 +73,8 @@ module.exports = function ({readingsRepo, filesystemRepo, tesseract}) {
                 reading = {
                     ocr_result: ocrResult,
                     filename: file,
-                    name: imageInfo.name,
+                    correct_value: imageInfo.correctValue,
+                    original_name: imageInfo.originalName,
                     is_base_image: imageInfo.baseImage,
                     color_depth: imageInfo.colorDepth,
                     ppt: imageInfo.ppt
@@ -94,7 +98,8 @@ function getImageInfoFromName(filename){
     fileExtension = filename.split('.').pop()
 
     imageInfo = {
-        name: null,
+        originalName: null,
+        correctValue: null,
         baseImage: null,
         colorDepth: null,
         ppt: null
@@ -108,11 +113,22 @@ function getImageInfoFromName(filename){
             imageInfo.baseImage = false
         }
 
-        fileNameArr = filename.split('_')
+        try{
+            fileNameArr = filename.split('_')
+            imageInfo.originalName = fileNameArr[0]
+            imageInfo.correctValue = fileNameArr[1]
+            imageInfo.colorDepth = fileNameArr[2].replace('bit', '')
+            imageInfo.ppt = fileNameArr[3].replace('ppt.bmp', '')
 
-        imageInfo.name = fileNameArr[0]
-        imageInfo.colorDepth = fileNameArr[1].replace('bit', '')
-        imageInfo.ppt = fileNameArr[2].replace('ppt.bmp', '')
+        }catch(e){
+            console.error('\n Wrong fileName format:')
+            console.error(e)
+            console.error('\n')
+            imageInfo = {
+                correctValue: 'ERROR FILENAME-FORMAT',
+                baseImage: false,
+            }
+        }
 
     }
 
