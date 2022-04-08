@@ -1,7 +1,6 @@
 const fs = require('fs')
-const path = require('path')
 
-module.exports = function() {
+module.exports = function () {
 
     const exports = {}
 
@@ -11,7 +10,7 @@ module.exports = function() {
      * @param {string} folderPath
      * @returns {Array<string>} 
      */
-    exports.getFilesFromFolder = function(folderPath) {
+    exports.getFilesFromFolder = function (folderPath) {
 
         return fs.readdirSync(folderPath, { withFileTypes: true })
             .filter(dirent => dirent.isFile())
@@ -23,13 +22,41 @@ module.exports = function() {
      * @param {string} folderPath
      * @returns {Array<string>} 
      */
-    exports.getAvailableFolders = function(folderPath) {
-        
-        return fs.readdirSync(folderPath, { withFileTypes: true } )
-                .filter(dirent => dirent.isDirectory())
-                .map(dirent => dirent.name)
+    exports.getAvailableFolders = function (folderPath) {
+
+        return fs.readdirSync(folderPath, { withFileTypes: true })
+            .filter(dirent => dirent.isDirectory())
+            .map(dirent => dirent.name)
     }
 
+    /**
+     * Write a file to given path.
+     * Returns an array with content depending on the result of the write.
+     * @param {string} folderPath
+     * @param {string} data
+     * @param {string} fileName
+     * @param {string} fileType
+     * @returns {Promise<Array>} Success: [true] || Fail: [false, 'internalError', error.stack]
+     */
+    exports.writeFile = function (folderPath, data, fileName, fileType) {
 
-    return exports
+        file = folderPath + fileName + '.' + fileType
+
+        return new Promise(resolve => {
+            fs.writeFile(file, data, { flag: 'ax' }, function (error) {
+                if (error) {
+                    console.log(error)
+                    resolve([false, 'internalError', error.stack])
+                } else {
+                    resolve([true, null, null])
+                }
+            })
+        })
+
+
+
+}
+
+
+return exports
 }

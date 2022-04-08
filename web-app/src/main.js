@@ -17,6 +17,7 @@ container.register({
     readingsManager:        awilix.asFunction(require('./business-logic-layer/readings-manager')),
     filesystemManager:      awilix.asFunction(require('./business-logic-layer/filesystem-manager')),
     tesseract:              awilix.asFunction(require('./business-logic-layer/tesseract')),
+    csv:                    awilix.asFunction(require('./business-logic-layer/csv-manager')),
 
     /******************************************* PRESENTATION ******************************************/
     homeRouter:             awilix.asFunction(require('./presentation-layer/routers/home-router')),

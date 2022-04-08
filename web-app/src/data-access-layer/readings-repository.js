@@ -83,6 +83,30 @@ module.exports = function() {
         })
     }
 
+        /**
+     * Gets all valid readings that are stored in the data source.
+     * @returns {Promise<Array>} 
+     * Success: [true, [readings]] || Fail: [false, 'internalError', error.stack] || [false, 'itemNotFound']
+     */
+         exports.getAllValidReadings = function() {
+            const query = `
+            SELECT * FROM readings
+            WHERE correct_value NOT IN ('ERROR FILENAME-FORMAT')
+            `
+            
+            return new Promise(resolve => {
+                db.query(query, function(error, result) {
+                    if (error) {
+                        resolve([false, 'internalError', error?.stack])
+                    } else if (!result.rowCount) {
+                        resolve([false, 'itemNotFound'])
+                    } else {
+                        resolve([true, result.rows])
+                    }
+                })
+            })
+        }
+
 
     /**
      * Updates the 'correct_value' field with the supplied value for

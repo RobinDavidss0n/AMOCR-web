@@ -1,0 +1,3 @@
+id,ocr_result,correct_value,filename,original_name,ppt,color_depth,is_base_image,created_on
+1,,0,picture249_0_8bit_100ppt.bmp,picture249,100,8,true,Fri Apr 08 2022 12:28:47 GMT+0000 (Coordinated Universal Time)
+2,,0,picture249_0_8bit_10ppt.bmp,picture249,10,8,false,Fri Apr 08 2022 12:28:47 GMT+0000 (Coordinated Universal Time)
