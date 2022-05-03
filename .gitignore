@@ -106,4 +106,6 @@ dist
 # Mac files
 .DS_Store
 
-/meter-images
+meter-images/
+
+ web-app/src/presentation-layer/public/meter-images/
