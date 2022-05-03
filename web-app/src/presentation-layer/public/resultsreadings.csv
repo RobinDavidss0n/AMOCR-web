@@ -1,3 +1,2 @@
-id,ocr_result,correct_value,filename,original_name,ppt,color_depth,is_base_image,created_on
-1,,0,picture249_0_8bit_100ppt.bmp,picture249,100,8,true,Fri Apr 08 2022 12:28:47 GMT+0000 (Coordinated Universal Time)
-2,,0,picture249_0_8bit_10ppt.bmp,picture249,10,8,false,Fri Apr 08 2022 12:28:47 GMT+0000 (Coordinated Universal Time)
+ocr_result,correct_value,correct_digits,all_correct,original_name,ppt,color_depth,bin_size,zip_size,png_size,is_base_image
+00043340,00043340,8,true,picture0,100,1,744,408,559,true

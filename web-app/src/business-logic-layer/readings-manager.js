@@ -84,23 +84,34 @@ module.exports = function ({ readingsRepo, filesystemRepo, tesseract, csv }) {
 
                 if (fileExtension == "bmp" || fileExtension == "png") {
 
-                    ocrResult = await tesseract.getImageRecognition(folder, file)
-                    console.log(ocrResult)
+                    // ocrResult = await tesseract.getImageRecognition(folder, file)
+                    // console.log(ocrResult)
                     imageInfo = getImageInfoFromName(file)
-    
+                    correctDigits = getCorrectDigits(imageInfo.correctValue, imageInfo.ocrResult)
+                    if (correctDigits == 8) {
+                        allCorrect = true
+                    }else{
+                        allCorrect = false
+                    }
+                    
                     reading = {
-                        ocr_result: ocrResult.replaceAll(' ',''),
                         filename: file,
+                        ocr_result: imageInfo.ocrResult,
                         correct_value: imageInfo.correctValue,
+                        correct_digits: correctDigits,
+                        all_correct: allCorrect,
+                        ocr_result: imageInfo.ocrResult,
                         original_name: imageInfo.originalName,
                         is_base_image: imageInfo.baseImage,
                         color_depth: imageInfo.colorDepth,
-                        ppt: imageInfo.ppt
+                        ppt: imageInfo.ppt,
+                        bin_size: imageInfo.binSize,
+                        zip_size: imageInfo.zipSize,
+                        png_size: imageInfo.pngSize
                     }
     
                     readings.push(reading)
                 }
-
             }
         }
 
@@ -110,6 +121,23 @@ module.exports = function ({ readingsRepo, filesystemRepo, tesseract, csv }) {
         return readings
     }
 
+    function getCorrectDigits(correctValue, ocrResult) {
+
+        correctValueArr = Array.from(correctValue)
+        ocrResultArr = Array.from(ocrResult)
+
+        correctAmount = 0
+
+        for (let index = 0; index < correctValueArr.length; index++) {
+
+            if (correctValueArr[index] == ocrResultArr[index]) {
+                correctAmount += 1
+            }
+        }
+
+        return correctAmount
+    }
+
     function getImageInfoFromName(filename) {
 
         fileExtension = filename.split('.').pop()
@@ -117,9 +145,13 @@ module.exports = function ({ readingsRepo, filesystemRepo, tesseract, csv }) {
         imageInfo = {
             originalName: null,
             correctValue: null,
+            ocrResult: null,
             baseImage: null,
             colorDepth: null,
-            ppt: null
+            ppt: null,
+            binSize: null,
+            zipSize: null,
+            pngSize: null
         }
 
         if (fileExtension == 'bmp' || fileExtension == 'png') {
@@ -134,8 +166,13 @@ module.exports = function ({ readingsRepo, filesystemRepo, tesseract, csv }) {
                 fileNameArr = filename.split('_')
                 imageInfo.originalName = fileNameArr[0]
                 imageInfo.correctValue = fileNameArr[1]
-                imageInfo.colorDepth = fileNameArr[2].replace('bit', '')
-                imageInfo.ppt = fileNameArr[3].replace('ppt.bmp', '')
+                imageInfo.ocrResult = fileNameArr[2]
+                imageInfo.colorDepth = fileNameArr[3].replace('bit', '')
+                imageInfo.ppt = fileNameArr[4].replace('ppt', '')
+                imageInfo.binSize = fileNameArr[5]
+                imageInfo.zipSize = fileNameArr[6]
+                imageInfo.pngSize = fileNameArr[7].replace('.png', '')
+                console.log(imageInfo.pngSize)
 
             } catch (e) {
                 console.error('\n Wrong fileName format:')

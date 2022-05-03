@@ -31,6 +31,10 @@
                     <th>OCR Result</th>
 
                     <th>Correct value</th>
+                    
+                    <th>Correct digits</th>
+                    
+                    <th>All correct</th>
 
                     {{#unless newReading}}
                     <th>Original name</th>
@@ -42,6 +46,18 @@
 
                     {{#unless newReading}}
                     <th>Color depth</th>
+                    {{/unless}}
+
+                    {{#unless newReading}}
+                    <th>Bin size</th>
+                    {{/unless}}
+
+                    {{#unless newReading}}
+                    <th>Zip size</th>
+                    {{/unless}}
+
+                    {{#unless newReading}}
+                    <th>PNG size</th>
                     {{/unless}}
 
                     {{#unless newReading}}
@@ -66,6 +82,10 @@
 
                     <td>{{correct_value}}</td>
 
+                    <td>{{correct_digits}}</td>
+                    
+                    <td>{{all_correct}}</td>
+
                     {{#unless ../newReading}}
                     <td>{{original_name}}</td>
                     {{/unless}}
@@ -78,6 +98,17 @@
                     <td>{{color_depth}}</td>
                     {{/unless}}
 
+                    {{#unless ../newReading}}
+                    <td>{{bin_size}}</td>
+                    {{/unless}}    
+
+                    {{#unless ../newReading}}
+                    <td>{{zip_size}}</td>
+                    {{/unless}}
+
+                    {{#unless ../newReading}}
+                    <td>{{png_size}}</td>
+                    {{/unless}}                    
                     {{#unless ../newReading}}
                     <td>{{is_base_image}}</td>
                     {{/unless}}

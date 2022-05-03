@@ -12,17 +12,26 @@ module.exports = function() {
      */
     exports.createReading = function(reading) {
         const query = `
-        INSERT INTO readings (ocr_result, correct_value, filename, original_name, ppt, color_depth, is_base_image, created_on) 
-        VALUES ($1, $2, $3, $4, $5, $6, $7, current_timestamp)
+        INSERT INTO readings 
+        (
+        ocr_result, correct_value, correct_digits, all_correct, filename, original_name, 
+        ppt, color_depth, bin_size, zip_size, png_size, is_base_image, created_on
+        ) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, current_timestamp)
         RETURNING ID`
     
         const values = [
             reading.ocr_result,
             reading.correct_value,
+            reading.correct_digits,
+            reading.all_correct,
             reading.filename, 
             reading.original_name,
             reading.ppt,
             reading.color_depth, 
+            reading.bin_size,
+            reading.zip_size,
+            reading.png_size,
             reading.is_base_image
         ]
 
@@ -90,7 +99,10 @@ module.exports = function() {
      */
          exports.getAllValidReadings = function() {
             const query = `
-            SELECT * FROM readings
+            SELECT 
+            ocr_result, correct_value, correct_digits, all_correct, original_name, ppt, color_depth, 
+            bin_size, zip_size, png_size, is_base_image
+            FROM readings
             WHERE correct_value NOT IN ('ERROR FILENAME-FORMAT')
             `
             

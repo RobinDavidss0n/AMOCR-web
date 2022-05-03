@@ -18,6 +18,7 @@ module.exports = function ({ }) {
         })
         csvFile = csvFile.slice(0, -1)
         csvFile += '\n'
+        
         for (var i = 0; i < rows.length; i++) {
             csvFile += processRow(rows[i]);
         }
