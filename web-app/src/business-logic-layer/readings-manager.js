@@ -54,39 +54,53 @@ module.exports = function ({ readingsRepo, filesystemRepo, tesseract, csv }) {
     /**
      * Performs OCR scanning of all images in the specified folder, including subfolders,
      * and stores the results in the data source.
-     * @param {string} folderPath 
+     * @param {string} basePath 
      * @returns {Array<object>} Array containing the values saved to the db.
      */
-    exports.createReadingsFromImagesInFolder = async function (folderPath) {
+    exports.createReadingsFromImagesInFolder = async function (basePath) {
 
-        folderArray = filesystemRepo.getAvailableFolders(folderPath)
+        firstLayerFolders = filesystemRepo.getAvailableFolders(basePath).map(folderName => basePath + "/" + folderName)
+        secondLayerFolders = []
+        
+        for (const folder of firstLayerFolders) {
+            secondLayerFolders.push(...filesystemRepo.getAvailableFolders(folder).map(folderName => folder + "/" + folderName))
+        }
 
-        if (folderArray.length == 0) {
-            folderArray.push('')
+        if (secondLayerFolders.length == 0) {
+            secondLayerFolders.push('')
         }
 
         readings = []
-        for (const folder of folderArray) {
+        for (const folder of secondLayerFolders) {
 
-            currentFolderPath = folderPath + '/' + folder
-            files = filesystemRepo.getFilesFromFolder(currentFolderPath)
+            console.log(folder)
+
+            //currentFolderPath = basePath + "/" + folder
+            files = filesystemRepo.getFilesFromFolder(folder)
 
             for (const file of files) {
-                ocrResult = await tesseract.getImageRecognition(currentFolderPath, file)
 
-                imageInfo = getImageInfoFromName(file)
+                fileExtension = file.split('.').pop()
 
-                reading = {
-                    ocr_result: ocrResult,
-                    filename: file,
-                    correct_value: imageInfo.correctValue,
-                    original_name: imageInfo.originalName,
-                    is_base_image: imageInfo.baseImage,
-                    color_depth: imageInfo.colorDepth,
-                    ppt: imageInfo.ppt
+                if (fileExtension == "bmp" || fileExtension == "png") {
+
+                    ocrResult = await tesseract.getImageRecognition(folder, file)
+                    console.log(ocrResult)
+                    imageInfo = getImageInfoFromName(file)
+    
+                    reading = {
+                        ocr_result: ocrResult.replaceAll(' ',''),
+                        filename: file,
+                        correct_value: imageInfo.correctValue,
+                        original_name: imageInfo.originalName,
+                        is_base_image: imageInfo.baseImage,
+                        color_depth: imageInfo.colorDepth,
+                        ppt: imageInfo.ppt
+                    }
+    
+                    readings.push(reading)
                 }
 
-                readings.push(reading)
             }
         }
 
@@ -108,7 +122,7 @@ module.exports = function ({ readingsRepo, filesystemRepo, tesseract, csv }) {
             ppt: null
         }
 
-        if (fileExtension == 'bmp') {
+        if (fileExtension == 'bmp' || fileExtension == 'png') {
 
             if (filename.includes('100ppt')) {
                 imageInfo.baseImage = true
@@ -132,7 +146,6 @@ module.exports = function ({ readingsRepo, filesystemRepo, tesseract, csv }) {
                     baseImage: false,
                 }
             }
-
         }
 
         return imageInfo
@@ -140,19 +153,19 @@ module.exports = function ({ readingsRepo, filesystemRepo, tesseract, csv }) {
 
 
     /**
-     * Returns all valid readings as a cvs formated string.
+     * Returns all valid readings as a csv formated string.
      * @returns {Promise<Array>}
      */
     exports.getAllValidReadingsAsCvsFormat = async function () {
         readings = await readingsRepo.getAllValidReadings()
 
-        if(readings[0]){
+        if (readings[0]) {
             
             return new Promise(resolve => {
                 resolve([true, csv.getCsvString(readings[1])])
             })
 
-        }else{
+        } else {
             return readings
         }
     }
