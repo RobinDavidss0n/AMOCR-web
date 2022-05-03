@@ -16,6 +16,8 @@ module.exports = function({}) {
 
         image = path+'/'+filename
         language = 'eng'
+
+        console.log(image)
         
         const rectangle = { left: 1, top: 1, width: 2, height: 2 }
         const worker = createWorker({
