@@ -128,11 +128,18 @@ module.exports = function ({ readingsRepo, filesystemRepo, tesseract, csv }) {
 
         correctAmount = 0
 
-        for (let index = 0; index < correctValueArr.length; index++) {
-
-            if (correctValueArr[index] == ocrResultArr[index]) {
-                correctAmount += 1
+        for (let index = 0; index < ocrResultArr.length; index++) {
+            
+            if (ocrResultArr[index] != null && correctValueArr[index] != null) {
+                if (correctValueArr[index] == ocrResultArr[index]) {
+                    correctAmount += 1
+                }
             }
+        }
+
+        if (ocrResultArr.length > 8) {
+            minusPoint = ocrResultArr.length - correctValueArr.length
+            correctAmount - minusPoint
         }
 
         return correctAmount
