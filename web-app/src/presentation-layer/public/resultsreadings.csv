@@ -1,2 +1,6 @@
-ocr_result,correct_value,correct_digits,all_correct,original_name,ppt,color_depth,bin_size,zip_size,png_size,is_base_image
-00043340,00043340,8,true,picture0,100,1,744,408,559,true
+original_name,color_depth,ppt,correct_value,ocr_result,correct_digits,all_correct,ocr_result_upscale,correct_digits_upscale,all_correct_upscale,bin_size,zip_size,png_size,is_base_image
+picture4,1,1,00048174,311,0,false,,0,false,72,164,318,false
+picture4,1,2,00048174,000xx134,5,false,000048174,3,false,156,209,357,false
+picture4,1,3,00048174,00048174,8,true,00048174,8,true,192,234,378,false
+picture4,1,4,00048174,00048174,8,true,00048174,8,true,288,261,408,false
+picture4,1,5,00048174,00048174,8,true,00048174,8,true,320,263,417,false

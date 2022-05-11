@@ -27,14 +27,14 @@
                     {{/unless}}
 
                     <th>Filename</th>
-
                     <th>OCR Result</th>
-
                     <th>Correct value</th>
-                    
                     <th>Correct digits</th>
+                    <th>All Correct</th>
                     
-                    <th>All correct</th>
+                    <th>OCR Result UPSCALE</th>
+                    <th>Correct digits UPSCALE</th>
+                    <th>All Correct UPSCALE</th>
 
                     {{#unless newReading}}
                     <th>Original name</th>
@@ -77,14 +77,14 @@
                     {{/unless}}
 
                     <td>{{filename}}</td>
-
                     <td>{{ocr_result}}</td>
-
                     <td>{{correct_value}}</td>
-
                     <td>{{correct_digits}}</td>
-                    
                     <td>{{all_correct}}</td>
+
+                    <td>{{ocr_result_upscale}}</td>
+                    <td>{{correct_digits_upscale}}</td>
+                    <td>{{all_correct_upscale}}</td>
 
                     {{#unless ../newReading}}
                     <td>{{original_name}}</td>

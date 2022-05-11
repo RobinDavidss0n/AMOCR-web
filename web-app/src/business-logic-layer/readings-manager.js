@@ -73,45 +73,73 @@ module.exports = function ({ readingsRepo, filesystemRepo, tesseract, csv }) {
         readings = []
         for (const folder of secondLayerFolders) {
 
-            console.log(folder)
-
+            console.log(`On folder -> ${folder}`)
+            
             //currentFolderPath = basePath + "/" + folder
             files = filesystemRepo.getFilesFromFolder(folder)
-
+            
             for (const file of files) {
+                
+                if(!file.includes("superUpscale")){
+                    console.log(`On file -> ${file}`)
 
-                fileExtension = file.split('.').pop()
-
-                if (fileExtension == "bmp" || fileExtension == "png") {
-
-                    // ocrResult = await tesseract.getImageRecognition(folder, file)
-                    // console.log(ocrResult)
-                    imageInfo = getImageInfoFromName(file)
-                    correctDigits = getCorrectDigits(imageInfo.correctValue, imageInfo.ocrResult)
-                    if (correctDigits == 8) {
-                        allCorrect = true
-                    }else{
-                        allCorrect = false
-                    }
-                    
-                    reading = {
-                        filename: file,
-                        ocr_result: imageInfo.ocrResult,
-                        correct_value: imageInfo.correctValue,
-                        correct_digits: correctDigits,
-                        all_correct: allCorrect,
-                        ocr_result: imageInfo.ocrResult,
-                        original_name: imageInfo.originalName,
-                        is_base_image: imageInfo.baseImage,
-                        color_depth: imageInfo.colorDepth,
-                        ppt: imageInfo.ppt,
-                        bin_size: imageInfo.binSize,
-                        zip_size: imageInfo.zipSize,
-                        png_size: imageInfo.pngSize
-                    }
+                    fileExtension = file.split('.').pop()
     
-                    readings.push(reading)
+                    if (fileExtension == "bmp" || fileExtension == "png") {
+    
+                        // ocrResult = await tesseract.getImageRecognition(folder, file)
+                        // console.log(ocrResult)
+    
+    
+    
+                        imageInfo = getImageInfoFromName(file)
+                        correctDigits = getCorrectDigits(imageInfo.correctValue, imageInfo.ocrResult)
+                        if (correctDigits == 8) {
+                            allCorrect = true
+                        }else{
+                            allCorrect = false
+                        }
+
+                        if (imageInfo.ocrResultUpscale != null) {
+                            correctDigitsUpscale = getCorrectDigits(imageInfo.correctValue, imageInfo.ocrResultUpscale)
+                            if (correctDigitsUpscale == 8) {
+                                allCorrectUpscale = true
+                            }else{
+                                allCorrectUpscale = false
+                            }
+
+                            console.log(`ocr_result_upscale -> ${imageInfo.ocrResultUpscale}`)
+
+
+                        }else{
+                            correctDigitsUpscale = null
+                            allCorrectUpscale = null
+                        }
+
+                        
+                        reading = {
+                            filename: file,
+                            ocr_result: imageInfo.ocrResult,
+                            correct_value: imageInfo.correctValue,
+                            correct_digits: correctDigits,
+                            all_correct: allCorrect,
+                            ocr_result: imageInfo.ocrResult,
+                            original_name: imageInfo.originalName,
+                            is_base_image: imageInfo.baseImage,
+                            color_depth: imageInfo.colorDepth,
+                            ppt: imageInfo.ppt,
+                            bin_size: imageInfo.binSize,
+                            zip_size: imageInfo.zipSize,
+                            png_size: imageInfo.pngSize,
+                            ocr_result_upscale: imageInfo.ocrResultUpscale,
+                            correct_digits_upscale: correctDigitsUpscale,
+                            all_correct_upscale: allCorrectUpscale,
+                        }
+        
+                        readings.push(reading)
+                    }
                 }
+
             }
         }
 
@@ -142,6 +170,10 @@ module.exports = function ({ readingsRepo, filesystemRepo, tesseract, csv }) {
             correctAmount - minusPoint
         }
 
+        if (correctAmount < 0) {
+            correctAmount = 0
+        }
+
         return correctAmount
     }
 
@@ -158,7 +190,8 @@ module.exports = function ({ readingsRepo, filesystemRepo, tesseract, csv }) {
             ppt: null,
             binSize: null,
             zipSize: null,
-            pngSize: null
+            pngSize: null,
+            ocrResultUpscale: null
         }
 
         if (fileExtension == 'bmp' || fileExtension == 'png') {
@@ -178,8 +211,8 @@ module.exports = function ({ readingsRepo, filesystemRepo, tesseract, csv }) {
                 imageInfo.ppt = fileNameArr[4].replace('ppt', '')
                 imageInfo.binSize = fileNameArr[5]
                 imageInfo.zipSize = fileNameArr[6]
-                imageInfo.pngSize = fileNameArr[7].replace('.png', '')
-                console.log(imageInfo.pngSize)
+                imageInfo.pngSize = fileNameArr[7]
+                imageInfo.ocrResultUpscale = fileNameArr[8].replace('.png', '')
 
             } catch (e) {
                 console.error('\n Wrong fileName format:')

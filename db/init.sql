@@ -13,7 +13,9 @@ CREATE TABLE IF NOT EXISTS readings (
     bin_size INTEGER,
     zip_size INTEGER,
     png_size INTEGER,
+    ocr_result_upscale VARCHAR(25),
+    correct_digits_upscale INTEGER,
+    all_correct_upscale BOOLEAN,
     is_base_image BOOLEAN NOT NULL,
     created_on TIMESTAMP NOT NULL
-
 );
